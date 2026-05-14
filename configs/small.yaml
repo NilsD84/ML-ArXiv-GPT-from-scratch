@@ -23,3 +23,6 @@ training:
   eval_every: 500
   save_every: 2000
   checkpoint_dir: checkpoints/small
+  grad_accum_steps: 1   # set to 8 to simulate batch_size=64
+  wandb: false          # set to true and run `pip install wandb` to enable
+  wandb_project: gpt-arxiv

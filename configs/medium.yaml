@@ -23,3 +23,6 @@ training:
   eval_every: 1000
   save_every: 5000
   checkpoint_dir: checkpoints/medium
+  grad_accum_steps: 8   # effective batch_size = 16 × 8 = 128
+  wandb: false
+  wandb_project: gpt-arxiv
