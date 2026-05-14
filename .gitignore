@@ -4,10 +4,11 @@ data/
 # Checkpoints — can be hundreds of MB
 checkpoints/
 
-# Internal documentation and personal notes (not for public repo)
+# Internal documentation, notes, and session logs (not for public repo)
 DOCUMENTATION.md
 CODE_REFERENCE.md
 memory/
+worksessions/
 
 # Training logs
 training.log
