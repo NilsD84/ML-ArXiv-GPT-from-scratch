@@ -1,0 +1,25 @@
+# GPT-small: ~85M params — good for single GPU experimentation
+model:
+  vocab_size: 32000
+  seq_len: 512
+  d_model: 512
+  n_heads: 8
+  n_layers: 6
+  dropout: 0.1
+
+data:
+  token_file: data/tokens_train.bin
+  val_fraction: 0.05
+  batch_size: 8
+  num_workers: 4
+
+training:
+  lr: 0.0003
+  weight_decay: 0.1
+  warmup_steps: 200
+  total_steps: 20000
+  epochs: 10
+  log_every: 50
+  eval_every: 500
+  save_every: 2000
+  checkpoint_dir: checkpoints/small

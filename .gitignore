@@ -1,0 +1,36 @@
+# Data — large binary files, never commit these
+data/
+
+# Checkpoints — can be hundreds of MB
+checkpoints/
+
+# Training logs
+training.log
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+*.egg
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# HuggingFace cache
+~/.cache/huggingface/

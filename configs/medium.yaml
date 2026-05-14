@@ -1,0 +1,25 @@
+# GPT-medium: ~350M params
+model:
+  vocab_size: 32000
+  seq_len: 1024
+  d_model: 1024
+  n_heads: 16
+  n_layers: 24
+  dropout: 0.1
+
+data:
+  token_file: data/tokens_train.bin
+  val_fraction: 0.05
+  batch_size: 16
+  num_workers: 4
+
+training:
+  lr: 0.0001
+  weight_decay: 0.1
+  warmup_steps: 500
+  total_steps: 100000
+  epochs: 20
+  log_every: 100
+  eval_every: 1000
+  save_every: 5000
+  checkpoint_dir: checkpoints/medium
