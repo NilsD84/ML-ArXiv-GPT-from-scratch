@@ -31,12 +31,6 @@ python scripts/prepare_data.py --output_dir data/ --vocab_size 32000
 python scripts/train.py --config configs/small.yaml
 ```
 
-## Docker
-
-```bash
-docker compose run prepare_data
-docker compose run train
-```
 
 ## Design notes
 
