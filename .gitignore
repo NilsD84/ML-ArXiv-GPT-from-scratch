@@ -6,6 +6,7 @@ checkpoints/
 
 # Internal documentation and personal notes (not for public repo)
 DOCUMENTATION.md
+CODE_REFERENCE.md
 memory/
 
 # Training logs
