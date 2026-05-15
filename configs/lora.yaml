@@ -1,0 +1,41 @@
+# LoRA fine-tuning config
+# Base model: checkpoints/small/best.pt (35.5M params, pretrained on ML ArXiv)
+# Task: structured JSON extraction from abstracts
+# Trainable params: ~200k (~0.6% of total)
+
+base_checkpoint: checkpoints/small/best.pt
+
+model:
+  vocab_size: 32000
+  seq_len: 512
+  d_model: 512
+  n_heads: 8
+  n_layers: 6
+  dropout: 0.0       # no dropout on frozen base during fine-tuning
+
+lora:
+  rank: 8
+  alpha: 16.0        # scale = alpha / rank = 2.0
+  dropout: 0.05      # light dropout on adapter inputs only
+  target_modules:    # which layers to inject (for documentation)
+    - qkv
+    - proj
+
+data:
+  train_file: data/lora_train.jsonl
+  val_fraction: 0.1  # 10% held out for validation (100 examples)
+  max_seq_len: 512   # prompt + JSON output must fit in 512 tokens
+
+training:
+  lr: 0.0002         # higher than pretraining — adapters start from zero
+  weight_decay: 0.01
+  warmup_steps: 50
+  total_steps: 800
+  batch_size: 4
+  log_every: 20
+  eval_every: 100
+  save_every: 200
+  checkpoint_dir: checkpoints/lora
+  wandb: true
+  wandb_project: gpt-arxiv
+  wandb_run_name: lora-extraction-r8

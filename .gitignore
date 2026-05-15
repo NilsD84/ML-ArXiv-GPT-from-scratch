@@ -1,5 +1,5 @@
 # Data — large binary files, never commit these
-data/
+/data/
 
 # Checkpoints — can be hundreds of MB
 checkpoints/
