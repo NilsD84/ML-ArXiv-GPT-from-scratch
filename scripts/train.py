@@ -3,6 +3,7 @@ Main training entry point.
 
 Usage:
     python scripts/train.py --config configs/small.yaml
+    python scripts/train.py --config configs/small.yaml --resume checkpoints/small/best.pt
 """
 import argparse
 from pathlib import Path
@@ -16,19 +17,22 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from src.data.dataloader import make_dataloaders
 from src.model.gpt import GPT
 from src.training.trainer import Trainer
+from src.training.checkpointing import load_checkpoint
+
+
+def best_device() -> str:
+    if torch.cuda.is_available():
+        return "cuda"
+    if torch.backends.mps.is_available():
+        return "mps"
+    return "cpu"
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", required=True)
-    def best_device() -> str:
-        if torch.cuda.is_available():
-            return "cuda"
-        if torch.backends.mps.is_available():
-            return "mps"
-        return "cpu"
-
     parser.add_argument("--device", default=best_device())
+    parser.add_argument("--resume", default=None, help="Path to checkpoint to resume from")
     args = parser.parse_args()
 
     with open(args.config) as f:
@@ -57,6 +61,15 @@ def main():
     print(f"Model parameters: {model.num_params() / 1e6:.1f}M")
 
     trainer = Trainer(model, train_cfg, device=args.device)
+
+    if args.resume:
+        ckpt = load_checkpoint(args.resume, model, trainer.optimizer)
+        trainer.step = ckpt["step"]
+        # Fast-forward the LR scheduler to the resumed step
+        for _ in range(ckpt["step"]):
+            trainer.scheduler.step()
+        print(f"Resumed from {args.resume} at step {ckpt['step']} (val_loss {ckpt['val_loss']:.4f})")
+
     trainer.fit(train_loader, val_loader)
 
 

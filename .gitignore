@@ -39,3 +39,6 @@ env/
 
 # HuggingFace cache
 ~/.cache/huggingface/
+
+# W&B local run data
+wandb/
